@@ -17,6 +17,6 @@ for ticker in tickers:
 # trim the date 
 df.index = df.index.strftime("%Y-%m-%d")
 
+#export raw data
 df.to_csv("ticker_data.csv", header=True)
-
 print('dataframe exported')

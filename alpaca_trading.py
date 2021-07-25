@@ -4,10 +4,6 @@ from config import *
 import pandas as pd
 import numpy as np
 
-APIKEYID 
-APISECRETKEY 
-APIBASEURL = 'https://paper-api.alpaca.markets'
-
 api = tradeapi.REST(APIKEYID, APISECRETKEY, APIBASEURL)
 
 # # Get our account information.
@@ -68,3 +64,10 @@ portfolio = api.list_positions()
 # for position in portfolio:
 #     print("{} shares of {}".format(position.qty, position.symbol))
 
+
+## https://alvarezquanttrading.com/blog/inverse-volatility-position-sizing/
+# # Calculate Historical Volatility
+
+## invert 
+
+## sum 

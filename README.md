@@ -14,3 +14,7 @@ Notes
 TODO: figure out how to get yfinance to work in VSC
 
 4) do not write out dates as it will keep them and not auto-update duh
+
+5) need to delete duplicate funds ie upro and spxl are both 3x s&p500 
+
+6) number of holdings to select is in config 

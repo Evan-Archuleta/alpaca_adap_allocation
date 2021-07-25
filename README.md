@@ -12,3 +12,5 @@ Notes
     3b) yfinance.download is failing with json
     3c) this does work on google colab for some reason. 
 TODO: figure out how to get yfinance to work in VSC
+
+4) do not write out dates as it will keep them and not auto-update duh

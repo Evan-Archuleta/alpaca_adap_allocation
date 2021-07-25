@@ -60,14 +60,10 @@ api = tradeapi.REST(APIKEYID, APISECRETKEY, APIBASEURL)
 
 portfolio = api.list_positions()
 
+
 # Print the quantity of shares for each position.
 # for position in portfolio:
 #     print("{} shares of {}".format(position.qty, position.symbol))
 
 
-## https://alvarezquanttrading.com/blog/inverse-volatility-position-sizing/
-# # Calculate Historical Volatility
 
-## invert 
-
-## sum 

@@ -5,36 +5,39 @@ import pandas as pd
 import numpy as np
 import pandas_datareader
 
+
 api = tradeapi.REST(APIKEYID, APISECRETKEY, APIBASEURL)
 
-# create df -- references config for days of data to pull. Adjust there 
+#create df -- references config for days of data to pull. Adjust there 
+df = pd.DataFrame()
+stock = []
+for ticker in tickers:
+    bar = api.get_barset(ticker, 'day', limit=days).df
+    df[ticker.upper()] = bar[ticker,  'close']
 
-# df = pd.DataFrame()
-# stock = []
-# for ticker in tickers:
-#     bar = api.get_barset(ticker, 'day', limit=days).df
-#     df[ticker.upper()] = bar[ticker,  'close']
+# trim the date 
+df.index = df.index.strftime("%Y-%m-%d")
 
-# # trim the date 
-# df.index = df.index.strftime("%Y-%m-%d")
+#export raw data
+df.to_csv("ticker_data.csv", header=True)
+print('dataframe exported')
 
-# #export raw data
-# df.to_csv("ticker_data.csv", header=True)
-# print('dataframe exported')
+# change to integrate to previous format 
+df2 = df
 
-## import yahoo data from Google Colab 
-df2 = pd.read_csv("yfinance_df.csv")
-df2.rename( columns={'Unnamed: 0':'Date'}, inplace=True )
-df2.set_index(keys="Date", inplace = True)
+##                          Import yahoo data from Google Colab 
+# df2 = pd.read_csv("yfinance_df.csv")
+# df2.rename( columns={'Unnamed: 0':'Date'}, inplace=True )
+# df2.set_index(keys="Date", inplace = True)
 
 ## historical 90 day vol -- check for accuracy https://www.etfreplay.com/volatility.aspx
+## ## https://alvarezquanttrading.com/blog/inverse-volatility-position-sizing/ 
 returns = df2.pct_change()
 df_returns = returns.dropna()
 df_returns = df_returns.tail(64)
 hist_vol = (df_returns.std())*(252**.5)
 hist_vol = pd.DataFrame(hist_vol, columns=['Hist_Vol'])
 hist_vol2 = hist_vol.T
-
 
 ## 200 day moving average  = 142 bus days 
 df_ma = df2.tail(142)
@@ -64,7 +67,7 @@ sum_inv_hv = research['inverse'].sum()
 research["Pos_Size %"] = research['inverse'] / sum_inv_hv
 
 # Top 10 past two weeks with pos 200MA
-print(research.head(10))
+#print(research.head(25))
 
 ## check 
-print(research['Pos_Size %'].sum())
+#print(research['Pos_Size %'].sum())

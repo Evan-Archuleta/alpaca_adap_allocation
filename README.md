@@ -18,3 +18,9 @@ TODO: figure out how to get yfinance to work in VSC
 5) need to delete duplicate funds ie upro and spxl are both 3x s&p500 
 
 6) number of holdings to select is in config 
+
+7) for the first version we're using the upro, tqqq, tmf model. If less than 200 day MA will not invest 
+    7a) do we go to cash in this instance? 
+
+8) need this to update daily
+TODO:    - wake up windows to run script 

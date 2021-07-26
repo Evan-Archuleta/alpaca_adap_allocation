@@ -1,0 +1,6 @@
+pandas_datareader
+alpaca_trade_api
+pyEX
+
+iex account
+alpaca account

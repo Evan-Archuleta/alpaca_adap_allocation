@@ -37,29 +37,41 @@ for ticker in tickers:
     share = want - have
     shares.append(share)
 
-print(shares)
-
 ## place orders 
 # buy
-def buy_order(ticker, shares):
+def buy_order(ticker, share):
     api.submit_order(
         symbol=ticker,
-        qty=shares,
+        qty=share,
         side='buy',
         type='limit',
         time_in_force='gtc',
         limit_price= last_price(ticker)
     )
 # sell
-def sell_order(ticker, shares):
+def sell_order(ticker, share):
     api.submit_order(
         symbol=ticker,
-        qty=shares,
+        qty=share,
         side='sell',
         type='limit',
         time_in_force='gtc',
         limit_price= last_price(ticker)
     )
+
+print(shares)
+print(tickers[0:(holdings-1)])
+
+# for share, ticker in zip(shares, tickers[0:(holdings-1)]):
+#     if share > 0:
+#         buy_order(ticker, share)
+#         print("bought")
+#     elif share < 0:
+#         sell_order(ticker, share) 
+#         print("sell")
+#     else:
+#         print('correct allocation')
+
 
 # check print the quantity of shares for each position.
 portfolio = api.list_positions()

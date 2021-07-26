@@ -16,25 +16,34 @@ def last_price(ticker):
     price = d['latestPrice']
     return(price)
 
+# Portfolio Market Value
+portfolio = api.list_positions()
+market_value = []
+for position in portfolio:
+    value = float(position.market_value)
+    market_value.append(value)
+market_value = sum(market_value)
+
 # Calculate Desired Shares 
 def desired_shares(ticker):
     result = research['Pos_Size %'].loc[ticker]
-    shares = int(result * to_trade / last_price(ticker))
+    shares = int(result * (to_trade + market_value) / last_price(ticker))
     return(shares)
+    
+# Have
+def have(ticker):
+    shares_owned2 = api.get_position(ticker)
+    shares_owned2 = shares_owned2.qty
+    shares_owned = int(shares_owned2)
+    return(shares_owned)
 
-# Find shares owned 
-portfolio = api.list_positions()
-for position in portfolio:
-    print("{} shares of {}".format(position.qty, position.symbol))
-
-## need to subtract desired - owned = change 
+## need to add portfolio value with config amount to calculate 
 
 shares = []
 for ticker in tickers:
-    #price = last_price(ticker)
     want = desired_shares(ticker)
-    have = 0 #will have to do after we see how it's formatted 
-    share = want - have
+    holding = have(ticker)
+    share = want - holding
     shares.append(share)
 
 ## place orders 
@@ -52,7 +61,7 @@ def buy_order(ticker, share):
 def sell_order(ticker, share):
     api.submit_order(
         symbol=ticker,
-        qty=share,
+        qty=(share *-1),
         side='sell',
         type='limit',
         time_in_force='gtc',
@@ -60,24 +69,18 @@ def sell_order(ticker, share):
     )
 
 print(shares)
-print(tickers[0:(holdings-1)])
 
-# for share, ticker in zip(shares, tickers[0:(holdings-1)]):
-#     if share > 0:
-#         buy_order(ticker, share)
-#         print("bought")
-#     elif share < 0:
-#         sell_order(ticker, share) 
-#         print("sell")
-#     else:
-#         print('correct allocation')
+for share, ticker in zip(shares, tickers):
+    if share > 0:
+        buy_order(ticker, share)
+        print("bought")
+    elif share < 0:
+        sell_order(ticker, share) 
+        print("sell")
+    else:
+        print('correct allocation')
 
-
-# check print the quantity of shares for each position.
+#check print the quantity of shares for each position.
 portfolio = api.list_positions()
 for position in portfolio:
     print("{} shares of {}".format(position.qty, position.symbol))
-
-
-
-

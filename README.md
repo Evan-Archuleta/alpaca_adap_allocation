@@ -30,3 +30,5 @@ Get current prices - uses 2 credits per price
 https://iexcloud.io/blog/how-to-get-market-data-in-python
 
 9) TODO: export df index list as tickers -- otherwise fails by trying to zip all without matching orders 
+
+10) If you reset your paper account, the keys reset as well. 

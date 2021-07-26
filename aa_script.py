@@ -30,15 +30,14 @@ def desired_shares(ticker):
     shares = int(result * (to_trade + market_value) / last_price(ticker))
     return(shares)
     
-# Have
+# Shares owned (have)
 def have(ticker):
     shares_owned2 = api.get_position(ticker)
     shares_owned2 = shares_owned2.qty
     shares_owned = int(shares_owned2)
     return(shares_owned)
 
-## need to add portfolio value with config amount to calculate 
-
+# Calculate delta of shares 
 shares = []
 for ticker in tickers:
     want = desired_shares(ticker)
@@ -73,12 +72,12 @@ print(shares)
 for share, ticker in zip(shares, tickers):
     if share > 0:
         buy_order(ticker, share)
-        print("bought")
+        print("Bought {} shares of {}".format(share, ticker))
     elif share < 0:
         sell_order(ticker, share) 
-        print("sell")
+        print("Sold {} shares of {}".format(share, ticker))
     else:
-        print('correct allocation')
+        print('correct allocation -- no action needed')
 
 #check print the quantity of shares for each position.
 portfolio = api.list_positions()

@@ -1,3 +1,6 @@
+## CAUTION -- The number of tickers needs to be the same as the 'holdings' value 
+## otherwise this will fail. 
+
 tickers = ["TQQQ",
 "UPRO",
 "TMF"]

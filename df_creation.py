@@ -21,17 +21,15 @@ df.index = df.index.strftime("%Y-%m-%d")
 #export raw data
 df.to_csv("ticker_data.csv", header=True)
 print('dataframe exported')
-
 # change to integrate to previous format 
 df2 = df
 
-##                          Import yahoo data from Google Colab 
+##*******************   Import yahoo data from Google Colab     *************************************                  
 # df2 = pd.read_csv("yfinance_df.csv")
 # df2.rename( columns={'Unnamed: 0':'Date'}, inplace=True )
 # df2.set_index(keys="Date", inplace = True)
 
-## historical 90 day vol -- check for accuracy https://www.etfreplay.com/volatility.aspx
-## ## https://alvarezquanttrading.com/blog/inverse-volatility-position-sizing/ 
+## Calculate Historical Volatility (90 days)
 returns = df2.pct_change()
 df_returns = returns.dropna()
 df_returns = df_returns.tail(64)

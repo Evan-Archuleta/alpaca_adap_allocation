@@ -65,7 +65,7 @@ sum_inv_hv = research['inverse'].sum()
 research["Pos_Size %"] = research['inverse'] / sum_inv_hv
 
 # Top 10 past two weeks with pos 200MA
-print(research.head(25))
+print(research.head(holdings))
 
-## check 
-#print(research['Pos_Size %'].sum())
+# Create ticker list 
+tickers = research.index.tolist()

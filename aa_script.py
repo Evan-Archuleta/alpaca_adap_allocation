@@ -1,8 +1,7 @@
 import alpaca_trade_api as tradeapi
 import pyEX as p
 from config import *
-from tickers import *
-from df_creation import research
+from df_creation import research, tickers
 import pandas as pd
 import numpy as np
 
@@ -16,33 +15,24 @@ def last_price(ticker):
     price = d['latestPrice']
     return(price)
 
-# Portfolio Market Value
-portfolio = api.list_positions()
-market_value = []
-for position in portfolio:
-    value = float(position.market_value)
-    market_value.append(value)
-market_value = sum(market_value)
-
 # Calculate Desired Shares 
 def desired_shares(ticker):
     result = research['Pos_Size %'].loc[ticker]
-    shares = int(result * (to_trade + market_value) / last_price(ticker))
+    shares = int(result * to_trade / last_price(ticker))
     return(shares)
-    
-# Shares owned (have)
-def have(ticker):
-    shares_owned2 = api.get_position(ticker)
-    shares_owned2 = shares_owned2.qty
-    shares_owned = int(shares_owned2)
-    return(shares_owned)
 
-# Calculate delta of shares 
+# Find shares owned 
+portfolio = api.list_positions()
+for position in portfolio:
+    print("{} shares of {}".format(position.qty, position.symbol))
+
+# Calculate delta of shares
 shares = []
 for ticker in tickers:
+    #price = last_price(ticker)
     want = desired_shares(ticker)
-    holding = have(ticker)
-    share = want - holding
+    have = 0 #will have to do after we see how it's formatted 
+    share = want - have
     shares.append(share)
 
 ## place orders 
@@ -60,7 +50,7 @@ def buy_order(ticker, share):
 def sell_order(ticker, share):
     api.submit_order(
         symbol=ticker,
-        qty=(share *-1),
+        qty=share,
         side='sell',
         type='limit',
         time_in_force='gtc',
@@ -68,6 +58,7 @@ def sell_order(ticker, share):
     )
 
 print(shares)
+print(tickers)
 
 for share, ticker in zip(shares, tickers):
     if share > 0:
@@ -79,7 +70,12 @@ for share, ticker in zip(shares, tickers):
     else:
         print('correct allocation -- no action needed')
 
-#check print the quantity of shares for each position.
+
+# check print the quantity of shares for each position.
 portfolio = api.list_positions()
 for position in portfolio:
     print("{} shares of {}".format(position.qty, position.symbol))
+
+
+
+

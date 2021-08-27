@@ -31,7 +31,7 @@ df2 = df
 
 ## Calculate Historical Volatility (90 days)
 returns = df2.pct_change()
-df_returns = returns.dropna()
+df_returns = returns.backfill()                    # df_returns = returns.dropna() 
 df_returns = df_returns.tail(64)
 hist_vol = (df_returns.std())*(252**.5)
 hist_vol = pd.DataFrame(hist_vol, columns=['Hist_Vol'])
@@ -65,7 +65,8 @@ sum_inv_hv = research['inverse'].sum()
 research["Pos_Size %"] = research['inverse'] / sum_inv_hv
 
 # Top 10 past two weeks with pos 200MA
-print(research.head(holdings))
+#print(research.head(holdings))
 
 # Create ticker list 
 tickers = research.index.tolist()
+print(tickers)

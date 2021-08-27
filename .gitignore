@@ -1,4 +1,5 @@
 config.py
 ticker_data.csv
 yfinance_df.csv
+explore.csv
 iex.py

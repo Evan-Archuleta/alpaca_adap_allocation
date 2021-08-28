@@ -76,6 +76,6 @@ df['Pos_Size %'] = research['inverse'] / sum_inv_hv
 tickers = df.index.tolist()
 
 # View outputs 
-# print(df)
+print(df)
 # print("tickers:")
 # print(tickers)

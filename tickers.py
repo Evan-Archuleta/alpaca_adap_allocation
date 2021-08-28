@@ -18,7 +18,6 @@ tickers = ["TQQQ", "UPRO", "TMF"]
 # "ERY",	"SDOW",	"SPXS",	"SPXU",	"CWEB",	"KOLD",	"SQQQ",	"TECS",	"TZA",	"SRTY",	"VXX",	"VIXY",	"SCO",	"FAZ",	"DRIP",	"FNGD",	"SOXS",	"HIBS",	"UVXY"]
 
 # more selective 
-
 # tickers = ["SQQQ",
 #            "YANG",
 #            "TMF",

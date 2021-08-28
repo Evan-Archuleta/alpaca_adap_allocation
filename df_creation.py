@@ -18,9 +18,9 @@ for ticker in tickers:
 # trim the date 
 df.index = df.index.strftime("%Y-%m-%d")
 
-#export raw data
-df.to_csv("ticker_data.csv", header=True)
-print('dataframe exported')
+## Export raw data to CSV 
+#df.to_csv("ticker_data.csv", header=True)
+#print('dataframe exported')
 # change to integrate to previous format 
 df2 = df
 
@@ -54,19 +54,28 @@ ma_df2.loc['10_Diff %'] = (ma_df2.iloc[-2] / ma_df2.iloc[1]) -1
 ma_df2 = ma_df2.append(hist_vol2)
 df_filtered = ma_df2.T
 
-## ETFs above 200 day MA and positive past two weeks 
-research = df_filtered[(df_filtered['200_Diff %'] > 0) & (df_filtered['10_Diff %'] > 0)]
-research = research.sort_values('200_Diff %', ascending=False)
+## ETFs above 200 day MA and positive past two weeks -- Removed 
+#research = df_filtered[(df_filtered['200_Diff %'] > 0) & (df_filtered['10_Diff %'] > 0)]
+#research = research.sort_values('200_Diff %', ascending=False)
+research = df_filtered
 
 # calculate order size wtih inverse and sum 
 research['inverse'] = 1 / research['Hist_Vol']
 research = research.head(holdings)
 sum_inv_hv = research['inverse'].sum()
-research["Pos_Size %"] = research['inverse'] / sum_inv_hv
+#research["Pos_Size %"] = research['inverse'] / sum_inv_hv
+#research["Pos_Size %"] = research.iloc[10] / sum_inv_hv
+
+df = research.copy()
+df['Pos_Size %'] = research['inverse'] / sum_inv_hv
 
 # Top 10 past two weeks with pos 200MA
 #print(research.head(holdings))
 
 # Create ticker list 
-tickers = research.index.tolist()
-print(tickers)
+tickers = df.index.tolist()
+
+# View outputs 
+# print(df)
+# print("tickers:")
+# print(tickers)

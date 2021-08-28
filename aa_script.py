@@ -1,7 +1,7 @@
 import alpaca_trade_api as tradeapi
 import pyEX as p
 from config import *
-from df_creation import research, tickers
+from df_creation import df, tickers
 import pandas as pd
 import numpy as np
 
@@ -26,7 +26,7 @@ market_value = sum(market_value)
 
 # Calculate Desired Shares 
 def desired_shares(ticker):
-    result = research['Pos_Size %'].loc[ticker]
+    result = df['Pos_Size %'].loc[ticker]
     shares = int(result * (to_trade + market_value) / last_price(ticker))
     return(shares)
 
@@ -41,12 +41,12 @@ def shares_owned(ticker):
         have = 0
         return(have)  
 
-# Positions to liquidate
-tickers_owned = []
-portfolio = api.list_positions()
-for position in portfolio:
-    tickers_owned.append(position.symbol)
-liquidate = np.setdiff1d(tickers_owned, tickers)
+# # Positions to liquidate 
+# tickers_owned = []
+# portfolio = api.list_positions()
+# for position in portfolio:
+#     tickers_owned.append(position.symbol)
+# liquidate = np.setdiff1d(tickers_owned, tickers)
 
 # Calculate delta of shares
 shares = []

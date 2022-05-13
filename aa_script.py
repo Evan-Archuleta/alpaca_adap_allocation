@@ -1,7 +1,7 @@
 import alpaca_trade_api as tradeapi
 import pyEX as p
 from config import *
-from df_creation import df, tickers
+from yfinance_pull import df, tickers
 import pandas as pd
 import numpy as np
 
@@ -42,11 +42,12 @@ def shares_owned(ticker):
         return(have)  
 
 # # Positions to liquidate 
-# tickers_owned = []
-# portfolio = api.list_positions()
-# for position in portfolio:
-#     tickers_owned.append(position.symbol)
-# liquidate = np.setdiff1d(tickers_owned, tickers)
+tickers_owned = []
+portfolio = api.list_positions()
+for position in portfolio:
+    tickers_owned.append(position.symbol)
+liquidate = np.setdiff1d(tickers_owned, tickers)
+    
 
 # Calculate delta of shares
 shares = []
@@ -64,9 +65,9 @@ def buy_order(ticker, share):
         symbol=ticker,
         qty=share,
         side='buy',
-        type='limit',
+        type='market',
         time_in_force='gtc',
-        limit_price= last_price(ticker)
+        #limit_price= last_price(ticker)
     )
 # sell
 def sell_order(ticker, share):
@@ -74,11 +75,17 @@ def sell_order(ticker, share):
         symbol=ticker,
         qty=share,
         side='sell',
-        type='limit',
+        type='market',
         time_in_force='gtc',
-        limit_price= last_price(ticker)
+        #limit_price= last_price(ticker)
     )
 
+# Sell what we have and don't want 
+for liquid in liquidate:   
+    sell_order(liquid, shares_owned(liquid)) 
+    print("Sold {} shares of {}".format(shares_owned(liquid), liquid))
+
+# buy and sell
 for share, ticker in zip(shares, tickers):
     if share > 0:
         buy_order(ticker, share)

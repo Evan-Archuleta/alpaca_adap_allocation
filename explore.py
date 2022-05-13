@@ -46,7 +46,7 @@ for position in portfolio:
 print('test')
 print(portfolio)   
 
-print('teest_real')
+print('test_real')
 tmf_position = api.get_position('TMF')
 #print("test2")
 print(tmf_position.qty)

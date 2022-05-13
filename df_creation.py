@@ -1,19 +1,23 @@
 import alpaca_trade_api as tradeapi
+from alpaca_trade_api.rest import TimeFrame 
 from config import *
 from tickers import *
 import pandas as pd
 import numpy as np
 import pandas_datareader
+import datetime
 
-
-api = tradeapi.REST(APIKEYID, APISECRETKEY, APIBASEURL)
+# API setup 
+api = tradeapi.REST(APIKEYID, APISECRETKEY, APIBASEURL, api_version='v2')
 
 #create df -- references config for days of data to pull. Adjust there 
 df = pd.DataFrame()
 stock = []
 for ticker in tickers:
-    bar = api.get_barset(ticker, 'day', limit=days).df
-    df[ticker.upper()] = bar[ticker,  'close']
+    bar = api.get_bars(ticker, TimeFrame.Day, start=start).df#, end=end).df
+    #print(bar)
+    #df[ticker.upper()] = bar[ticker,  'close']
+    df[ticker.upper()] = bar['close']
 
 # trim the date 
 df.index = df.index.strftime("%Y-%m-%d")
@@ -22,12 +26,12 @@ df.index = df.index.strftime("%Y-%m-%d")
 #df.to_csv("ticker_data.csv", header=True)
 #print('dataframe exported')
 # change to integrate to previous format 
-df2 = df
+df2 = df.copy()
 
-##*******************   Import yahoo data from Google Colab     *************************************                  
-# df2 = pd.read_csv("yfinance_df.csv")
-# df2.rename( columns={'Unnamed: 0':'Date'}, inplace=True )
-# df2.set_index(keys="Date", inplace = True)
+# ##*******************   Import yahoo data from Google Colab     *************************************                  
+# # df2 = pd.read_csv("yfinance_df.csv")
+# # df2.rename( columns={'Unnamed: 0':'Date'}, inplace=True )
+# # df2.set_index(keys="Date", inplace = True)
 
 ## Calculate Historical Volatility (90 days)
 returns = df2.pct_change()
@@ -76,6 +80,6 @@ df['Pos_Size %'] = research['inverse'] / sum_inv_hv
 tickers = df.index.tolist()
 
 # View outputs 
+print("Alpaca Data Pull")
 print(df)
-# print("tickers:")
-# print(tickers)
+df.to_csv('expore.csv', header=True, index=True)

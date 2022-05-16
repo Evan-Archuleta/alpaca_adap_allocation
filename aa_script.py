@@ -1,20 +1,20 @@
 import alpaca_trade_api as tradeapi
 import pyEX as p
 from config import *
-from yfinance_pull import df, tickers
+from yfinance_df import df, tickers
 import pandas as pd
 import numpy as np
 
+# set up accounts
 api = tradeapi.REST(APIKEYID, APISECRETKEY, APIBASEURL)
 c = p.Client(api_token= YOUR_API_TOKEN, version='stable') 
 
-# find tickers last price 
+# find tickers last price (iex data)
 def last_price(ticker):
     sym=ticker
     d = c.quote(symbol=sym)
     price = d['latestPrice']
     return(price)
-
 
 # Portfolio Market Value
 portfolio = api.list_positions()
@@ -24,7 +24,7 @@ for position in portfolio:
     market_value.append(value)
 market_value = sum(market_value)
 
-# Calculate Desired Shares 
+# Calculate Desired Shares (iex data)
 def desired_shares(ticker):
     result = df['Pos_Size %'].loc[ticker]
     shares = int(result * (to_trade + market_value) / last_price(ticker))

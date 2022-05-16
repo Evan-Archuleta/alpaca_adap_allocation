@@ -1,10 +1,9 @@
 import numpy as np
 import pandas as pd
-import datetime
 import yfinance as yf
 from config import *
 from tickers import *
-from df_creation import df2
+from alpaca_df import df2
 import warnings
 warnings.filterwarnings("ignore")
 
@@ -34,15 +33,12 @@ df.dropna(axis=0, inplace = True)
 
 
 # replace last observed iex result to yahoo finance adjusted close 
-#df = df.iloc[:-1,:]   ### yahoo used to report day of info which it does not anymore. Removed to avoid dropping a day 
 last_row = df2.tail(1)
 df = df.append(last_row)
 
-# check dataframe
-
 ## Calculate Historical Volatility (90 days)
 returns = df.pct_change()
-df_returns = returns.backfill()                    # df_returns = returns.dropna() 
+df_returns = returns.backfill()                   
 df_returns = df_returns.tail(64)
 hist_vol = (df_returns.std())*(252**.5)
 hist_vol = pd.DataFrame(hist_vol, columns=['Hist_Vol'])
@@ -65,29 +61,20 @@ ma_df.loc['10_Diff %'] = (ma_df.iloc[-2] / ma_df.iloc[1]) -1
 ma_df = ma_df.append(hist_vol2)
 df_filtered = ma_df.T
 
-## ETFs above 200 day MA and positive past two weeks -- Removed 
+## ETFs above 200 day MA and positive past two weeks
 research = df_filtered[(df_filtered['200_Diff %'] > 0) & (df_filtered['10_Diff %'] > 0)]
 research = research.sort_values('200_Diff %', ascending=False)
-#research = df_filtered
 
 # calculate order size wtih inverse and sum 
 research['inverse'] = 1 / research['Hist_Vol']
 research = research.head(holdings)
 sum_inv_hv = research['inverse'].sum()
-# research["Pos_Size %"] = research['inverse'] / sum_inv_hv
-# research["Pos_Size %"] = research.iloc[10] / sum_inv_hv
-
 df = research.copy()
 df['Pos_Size %'] = research['inverse'] / sum_inv_hv
-
-# Top 10 past two weeks with pos 200MA
-#print(research.head(holdings))
 
 # Create ticker list 
 tickers = df.index.tolist()
 
-# View outputs 
-print("Yahoo Finance Data")
+# View outputs (this is used for trading)
+print("Yahoo Finance Data (Filtered)")
 print(df)
-
-df.to_csv('expore.csv', header=True, index=True)

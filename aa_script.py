@@ -94,7 +94,7 @@ for share, ticker in zip(shares, tickers):
         sell_order(ticker, (share*-1)) 
         print("Sold {} shares of {}".format(share, ticker))
     else:
-        print('correct allocation -- no action needed')
+        print("correct allocation of {}".format(ticker))
 
 # check print the quantity of shares for each position.
 portfolio = api.list_positions()

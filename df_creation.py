@@ -6,6 +6,8 @@ import pandas as pd
 import numpy as np
 import pandas_datareader
 import datetime
+import warnings
+warnings.filterwarnings("ignore")
 
 # API setup 
 api = tradeapi.REST(APIKEYID, APISECRETKEY, APIBASEURL, api_version='v2')
@@ -82,4 +84,4 @@ tickers = df.index.tolist()
 # View outputs 
 print("Alpaca Data Pull")
 print(df)
-df.to_csv('expore.csv', header=True, index=True)
+#df.to_csv('expore.csv', header=True, index=True)

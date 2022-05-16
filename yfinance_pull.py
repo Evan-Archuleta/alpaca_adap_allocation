@@ -5,10 +5,13 @@ import yfinance as yf
 from config import *
 from tickers import *
 from df_creation import df2
+import warnings
+warnings.filterwarnings("ignore")
 
 # Set up dataframe
 dates= pd.date_range(start, end)
 df = pd.DataFrame(index=dates)
+df.index = df.index.date
 
 
 # yahoo adjusted close better data import 
@@ -17,6 +20,18 @@ for ticker in tickers:
   stocks = yf.download(ticker.upper(),start=start, end=end, progress=False)
   df[ticker.upper()] = stocks['Adj Close']  
 df.dropna(axis=0, inplace = True)
+
+## Fix the warning 
+# stock = []
+# df_ticker = []
+# for ticker in tickers:
+#   stocks = yf.download(ticker.upper(),start=start, end=end, progress=False)
+#   df_ticker.append(stocks['Adj Close'])
+  
+# df = pd.concat(df_ticker, axis=1)    
+# df.dropna(axis=0, inplace = True)
+# print(df)
+
 
 # replace last observed iex result to yahoo finance adjusted close 
 #df = df.iloc[:-1,:]   ### yahoo used to report day of info which it does not anymore. Removed to avoid dropping a day 
@@ -66,7 +81,7 @@ df = research.copy()
 df['Pos_Size %'] = research['inverse'] / sum_inv_hv
 
 # Top 10 past two weeks with pos 200MA
-print(research.head(holdings))
+#print(research.head(holdings))
 
 # Create ticker list 
 tickers = df.index.tolist()

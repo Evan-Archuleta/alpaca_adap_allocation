@@ -60,4 +60,3 @@ tickers = df.index.tolist()
 # View outputs 
 print("Alpaca Data Pull")
 print(df)
-

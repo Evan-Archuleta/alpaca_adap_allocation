@@ -16,13 +16,9 @@ def last_price(ticker):
     price = d['latestPrice']
     return(price)
 
-# Portfolio Market Value
-portfolio = api.list_positions()
-market_value = []
-for position in portfolio:
-    value = float(position.market_value)
-    market_value.append(value)
-market_value = sum(market_value)
+# # Portfolio Market Value
+account_value = api.get_account()
+market_value = float(account_value.portfolio_value)
 
 # Calculate Desired Shares (iex data)
 def desired_shares(ticker):

@@ -3,7 +3,7 @@
 # Hedgefundie
 # tickers = ["TQQQ", "UPRO", "TMF"]
 
-# # Vanguard 
+# Vanguard 
 # tickers = ["VTI","VOO","VEA","VTV","VWO","VUG","BND","VIG","VO","VGT","VXUS","VCIT","VB","BNDX","VNQ","VCSH","VYM","BSV","VEU","VV","VBR","VT","VGK","VXF","VBK"]
 
 # High Options
@@ -17,7 +17,7 @@ tickers = ["BNKU", "UCO",	"FAS",	"BDRY",	"UPRO",	"SPXL",	"TECL",	"TQQQ",	"TNA",	
 "GDX",	"UGL",	"DOG",	"GDXJ",	"TMF",	"SH",	"LABU",	"PSQ",	"RWM",	"GDXU",	"YINN",	"EDZ",	"NUGT",	"KWEB",	"DXD",	"LABD",	"SDS",	"QID",	"JNUG",	"TWM",
 "ERY",	"SDOW",	"SPXS",	"SPXU",	"CWEB",	"KOLD",	"SQQQ",	"TECS",	"TZA",	"SRTY",	"VXX",	"VIXY",	"SCO",	"FAZ",	"DRIP",	"FNGD",	"SOXS",	"HIBS",	"UVXY"]
 
-## more selective 
+# more selective 
 # tickers = ["SQQQ",
 #            "YANG",
 #            "TMF",

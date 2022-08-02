@@ -6,3 +6,9 @@ pyEX
 Accounts
 iex account
 alpaca account
+
+pandas==1.3.5
+https://code.visualstudio.com/docs/python/environments
+conda activate env-01
+conda deactivate
+

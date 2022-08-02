@@ -1,7 +1,7 @@
 import alpaca_trade_api as tradeapi
-import pyEX as p
+import pyEX as p   # OPTIONAL 
 from config import *
-from yfinance_df import df, tickers
+from alpaca_df import df, tickers
 import pandas as pd
 import numpy as np
 
@@ -81,7 +81,9 @@ for liquid in liquidate:
     sell_order(liquid, shares_owned(liquid)) 
     print("Sold {} shares of {}".format(shares_owned(liquid), liquid))
 
-# buy and sell
+# 08-22-22 Error discovered needs fix -- Need to sell before we buy to avoid cashflow issues
+
+# buy and sell  
 for share, ticker in zip(shares, tickers):
     if share > 0:
         buy_order(ticker, share)

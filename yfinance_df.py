@@ -78,3 +78,4 @@ tickers = df.index.tolist()
 # View outputs (this is used for trading)
 print("Yahoo Finance Data (Filtered)")
 print(df)
+

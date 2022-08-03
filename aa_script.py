@@ -48,13 +48,12 @@ liquidate = np.setdiff1d(tickers_owned, tickers)
 # Calculate delta of shares
 shares = []
 for ticker in tickers:
-    #price = last_price(ticker)
+    price = last_price(ticker)
     want = desired_shares(ticker)
     have = shares_owned(ticker)
     share = want - have
     shares.append(share)
 
-## place orders 
 # buy
 def buy_order(ticker, share):
     api.submit_order(
@@ -81,18 +80,38 @@ for liquid in liquidate:
     sell_order(liquid, shares_owned(liquid)) 
     print("Sold {} shares of {}".format(shares_owned(liquid), liquid))
 
-# 08-22-22 Error discovered needs fix -- Need to sell before we buy to avoid cashflow issues
+# view the desired shares 
+for share, ticker in zip(shares, tickers):
+    print(ticker, share)
 
-# buy and sell  
+##### 08-2-22 Error discovered needs fix -- Need to sell before we buy to avoid cashflow issues
+###### 8-3-22 Error fix -- sell first then buy 
+    
+# # buy and sell  
+# for share, ticker in zip(shares, tickers):
+#     if share > 0:
+#         buy_order(ticker, share)
+#         print("Bought {} shares of {}".format(share, ticker))
+#     elif share < 0:
+#         sell_order(ticker, (share*-1)) 
+#         print("Sold {} shares of {}".format(share, ticker))
+#     else:
+#         print("correct allocation of {}".format(ticker))
+
+#### END FIX 8-3-22
+
+## place orders 
+# sell  
+for share, ticker in zip(shares, tickers):
+    if share < 0:
+        sell_order(ticker, (share*-1)) 
+        print("Sold {} shares of {}".format(share, ticker))
+
+# buy  
 for share, ticker in zip(shares, tickers):
     if share > 0:
         buy_order(ticker, share)
         print("Bought {} shares of {}".format(share, ticker))
-    elif share < 0:
-        sell_order(ticker, (share*-1)) 
-        print("Sold {} shares of {}".format(share, ticker))
-    else:
-        print("correct allocation of {}".format(ticker))
 
 # check print the quantity of shares for each position.
 portfolio = api.list_positions()

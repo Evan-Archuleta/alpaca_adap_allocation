@@ -81,8 +81,8 @@ for liquid in liquidate:
     print("Sold {} shares of {}".format(shares_owned(liquid), liquid))
 
 # view the desired shares 
-for share, ticker in zip(shares, tickers):
-    print(ticker, share)
+# for share, ticker in zip(shares, tickers):
+#     print(ticker, share)
 
 ##### 08-2-22 Error discovered needs fix -- Need to sell before we buy to avoid cashflow issues
 ###### 8-3-22 Error fix -- sell first then buy 

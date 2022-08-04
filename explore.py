@@ -14,11 +14,14 @@ account_value = api.get_account()
 #print(account_value)
 #print(portfolio)
 
-## check print the quantity of shares for each position.
+# check print the quantity of shares for each position.
 for position in portfolio:
     print("{} shares of {} daily change {}".format(position.qty, position.symbol, position.change_today))
 
 def func():
+    portfolio = api.list_positions()
+    account_value = api.get_account()
+    
     # print cash and portfolio values 
     print()
     cash_value = float(account_value.cash)

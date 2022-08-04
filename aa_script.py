@@ -24,8 +24,8 @@ tradable_value = float(account_value.non_marginable_buying_power)
 # Calculate Desired Shares (iex data)
 def desired_shares(ticker):
     result = df['Pos_Size %'].loc[ticker]
-    #shares = int(result * (to_trade + market_value) / last_price(ticker))
-    shares = int(result * (tradable_value) / last_price(ticker))             #Day trading fix 
+    shares = int(result * (to_trade + market_value) / last_price(ticker))
+    #shares = int(result * (tradable_value) / last_price(ticker))             #Day trading fix 
     return(shares)
 
 # Find shares owned 

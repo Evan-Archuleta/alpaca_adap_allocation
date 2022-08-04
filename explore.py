@@ -23,7 +23,7 @@ for position in portfolio:
 
 port_val = []
 time_stamp = []
-df = pd.DataFrame({'date': [],'port_val': []})
+df = pd.DataFrame({'timestamp': [],'port_daily_change': []})
 
 def func():
     portfolio = api.list_positions()

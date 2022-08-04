@@ -18,6 +18,7 @@ account_value = api.get_account()
 for position in portfolio:
     print("{} shares of {} daily change {}".format(position.qty, position.symbol, position.change_today))
 
+port_val = []
 def func():
     portfolio = api.list_positions()
     account_value = api.get_account()
@@ -37,6 +38,11 @@ def func():
 
     todays_change = float((balance_change / account_value_1)*100)
     print(f'Today\'s portfolio change: {todays_change:.2f}%')
+
+    # append to portvalue
+    balance_change = str(round(balance_change, 2))
+    port_val.append(balance_change)
+    print(port_val)
 
 schedule.every(1).minutes.do(func)
 

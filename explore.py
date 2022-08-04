@@ -4,6 +4,8 @@ import pandas as pd
 import numpy as np 
 import time
 import schedule
+import matplotlib
+
 
 # Set up account
 api = tradeapi.REST(APIKEYID, APISECRETKEY, APIBASEURL)
@@ -19,6 +21,8 @@ for position in portfolio:
     print("{} shares of {} daily change {}".format(position.qty, position.symbol, position.change_today))
 
 port_val = []
+df = pd.DataFrame({'port_val': []})
+
 def func():
     portfolio = api.list_positions()
     account_value = api.get_account()
@@ -42,7 +46,10 @@ def func():
     # append to portvalue
     balance_change = str(round(balance_change, 2))
     port_val.append(balance_change)
-    print(port_val)
+
+    df.loc[df.shape[0]] = [balance_change]
+    print(df)
+
 
 schedule.every(1).minutes.do(func)
 

@@ -5,6 +5,7 @@ import numpy as np
 import time
 import schedule
 import matplotlib
+import datetime
 
 
 # Set up account
@@ -21,7 +22,8 @@ for position in portfolio:
     print("{} shares of {} daily change {}".format(position.qty, position.symbol, position.change_today))
 
 port_val = []
-df = pd.DataFrame({'port_val': []})
+time_stamp = []
+df = pd.DataFrame({'date': [],'port_val': []})
 
 def func():
     portfolio = api.list_positions()
@@ -47,8 +49,12 @@ def func():
     balance_change = str(round(balance_change, 2))
     port_val.append(balance_change)
 
-    df.loc[df.shape[0]] = [balance_change]
+    time = datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
+    time_stamp.append(time)
+    df.loc[df.shape[0]] = [time, balance_change] # from time_stamp
+
     print(df)
+    df.to_csv('daily_change.csv', header=True, index=False)
 
 
 schedule.every(1).minutes.do(func)

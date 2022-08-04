@@ -19,11 +19,13 @@ def last_price(ticker):
 # # Portfolio Market Value
 account_value = api.get_account()
 market_value = float(account_value.portfolio_value)
+tradable_value = float(account_value.non_marginable_buying_power)
 
 # Calculate Desired Shares (iex data)
 def desired_shares(ticker):
     result = df['Pos_Size %'].loc[ticker]
-    shares = int(result * (to_trade + market_value) / last_price(ticker))
+    #shares = int(result * (to_trade + market_value) / last_price(ticker))
+    shares = int(result * (tradable_value) / last_price(ticker))             #Day trading fix 
     return(shares)
 
 # Find shares owned 
@@ -100,7 +102,7 @@ for liquid in liquidate:
 
 #### END FIX 8-3-22
 
-## place orders 
+# place orders 
 # sell  
 for share, ticker in zip(shares, tickers):
     if share < 0:

@@ -18,7 +18,6 @@ account_value = api.get_account()
 for position in portfolio:
     print("{} shares of {} daily change {}".format(position.qty, position.symbol, position.change_today))
 
-
 def func():
     # print cash and portfolio values 
     print()

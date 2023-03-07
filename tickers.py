@@ -6,7 +6,7 @@
 # Vanguard 
 # tickers = ["VTI","VOO","VEA","VTV","VWO","VUG","BND","VIG","VO","VGT","VXUS","VCIT","VB","BNDX","VNQ","VCSH","VYM","BSV","VEU","VV","VBR","VT","VGK","VXF","VBK"]
 
-# High Options
+# # High Options
 # tickers = ["BNKU", "UCO",	"FAS",	"BDRY",	"UPRO",	"SPXL",	"TECL",	"TQQQ",	"TNA",	"URTY",	"UDOW",	"LIT",	"FNGU",	"SOXL",	"DPST",	"UWM",	"QLD",	"SSO",	"DFEN",	"DBO",	
 # "GUSH",	"XME",	"KRBN",	"USO",	"BNO",	"COPX",	"DRIV",	"CORN",	"BOIL",	"XOP",	"NAIL",	"SVXY",	"CPER",	"PAVE",	"ERX",	"TAN",	"PDBC",	"DBC",	"SMH",	
 # "XLF",	"KBE",	"XLC",	"UNG",	"XLK",	"MGK",	"SPYG",	"QQQ",	"VTWO",	"IWM",	"IXG",	"XLI",	"WCLD",	"EWY",	"ARKW",	"ARKK",	"JETS",	"DBA",	"VTI",	"SPYD",

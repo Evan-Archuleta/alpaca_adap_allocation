@@ -56,7 +56,20 @@ def func():
 	
     print(df)
     df.to_csv('daily_change.csv', header=True, index=False)
-    plt.plot(df['port_daily_change']) #change
+
+    #plot
+    # x = df['timestamp']
+    # y = df['port_daily_change']
+
+    # fig, ax = plt.subplots()
+    # ax.plot(x, y)
+
+    # ax.set(xlabel='Time (s)', ylabel='Value ($)',
+    #     title='Daily Change')
+    # plt.xticks(rotation=90)
+    # ax.grid()
+
+    plt.plot(df['port_daily_change']) 
     plt.show()
 
 

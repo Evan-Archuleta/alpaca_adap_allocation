@@ -1,4 +1,5 @@
 import alpaca_trade_api as tradeapi
+from alpaca_trade_api.rest import TimeFrame 
 import pyEX as p   # OPTIONAL 
 from config import *
 from alpaca_df import df, tickers
@@ -7,13 +8,20 @@ import numpy as np
 
 # set up accounts
 api = tradeapi.REST(APIKEYID, APISECRETKEY, APIBASEURL)
-c = p.Client(api_token= YOUR_API_TOKEN, version='stable')
+#c = p.Client(api_token= YOUR_API_TOKEN, version='stable')
 
 # find tickers last price (iex data)
+# def last_price(ticker):
+#     sym=ticker
+#     d = c.quote(symbol=sym)
+#     price = d['latestPrice']
+#     return(price)
+
+# find tickers last price (alpaca data)
 def last_price(ticker):
-    sym=ticker
-    d = c.quote(symbol=sym)
-    price = d['latestPrice']
+    df = pd.DataFrame()
+    bar = api.get_bars(ticker, TimeFrame.Day).df#, start=start, adjustment='all').df
+    price = bar['close'][0]
     return(price)
 
 # # Portfolio Market Value

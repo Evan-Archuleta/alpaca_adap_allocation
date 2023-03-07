@@ -7,7 +7,7 @@ import numpy as np
 
 # set up accounts
 api = tradeapi.REST(APIKEYID, APISECRETKEY, APIBASEURL)
-c = p.Client(api_token= YOUR_API_TOKEN, version='stable') 
+c = p.Client(api_token= YOUR_API_TOKEN, version='stable')
 
 # find tickers last price (iex data)
 def last_price(ticker):
@@ -18,17 +18,19 @@ def last_price(ticker):
 
 # # Portfolio Market Value
 account_value = api.get_account()
-market_value = float(account_value.portfolio_value)
+market_value = float(account_value.long_market_value)
 tradable_value = float(account_value.non_marginable_buying_power)
+cash = (float(account_value.cash) - 90000)
 
 # Calculate Desired Shares (iex data)
 def desired_shares(ticker):
     result = df['Pos_Size %'].loc[ticker]
-    shares = int(result * (to_trade + market_value) / last_price(ticker))
-    #shares = int(result * (tradable_value) / last_price(ticker))             #Day trading fix 
+    #shares = int(result * (to_trade) / last_price(ticker))                   #start account value
+    shares = int(result * (to_trade + market_value + cash) / last_price(ticker))
+    #shares = int(result * (tradable_value) / last_price(ticker))             #Day trading fix
     return(shares)
 
-# Find shares owned 
+# Find shares owned
 def shares_owned(ticker):
     portfolio = api.list_positions()
     try:
@@ -37,15 +39,15 @@ def shares_owned(ticker):
         return(have)
     except:
         have = 0
-        return(have)  
+        return(have)
 
-# # Positions to liquidate 
+# # Positions to liquidate
 tickers_owned = []
 portfolio = api.list_positions()
 for position in portfolio:
     tickers_owned.append(position.symbol)
 liquidate = np.setdiff1d(tickers_owned, tickers)
-    
+
 
 # Calculate delta of shares
 shares = []
@@ -77,39 +79,39 @@ def sell_order(ticker, share):
         #limit_price= last_price(ticker)
     )
 
-# Sell what we have and don't want 
-for liquid in liquidate:   
-    sell_order(liquid, shares_owned(liquid)) 
+# Sell what we have and don't want
+for liquid in liquidate:
+    sell_order(liquid, shares_owned(liquid))
     print("Sold {} shares of {}".format(shares_owned(liquid), liquid))
 
-# view the desired shares 
+# view the desired shares
 # for share, ticker in zip(shares, tickers):
 #     print(ticker, share)
 
 ##### 08-2-22 Error discovered needs fix -- Need to sell before we buy to avoid cashflow issues
-###### 8-3-22 Error fix -- sell first then buy 
-    
-# # buy and sell  
+###### 8-3-22 Error fix -- sell first then buy
+
+# # buy and sell
 # for share, ticker in zip(shares, tickers):
 #     if share > 0:
 #         buy_order(ticker, share)
 #         print("Bought {} shares of {}".format(share, ticker))
 #     elif share < 0:
-#         sell_order(ticker, (share*-1)) 
+#         sell_order(ticker, (share*-1))
 #         print("Sold {} shares of {}".format(share, ticker))
 #     else:
 #         print("correct allocation of {}".format(ticker))
 
 #### END FIX 8-3-22
 
-# place orders 
-# sell  
+# place orders
+# sell
 for share, ticker in zip(shares, tickers):
     if share < 0:
-        sell_order(ticker, (share*-1)) 
+        sell_order(ticker, (share*-1))
         print("Sold {} shares of {}".format(share, ticker))
 
-# buy  
+# buy
 for share, ticker in zip(shares, tickers):
     if share > 0:
         buy_order(ticker, share)

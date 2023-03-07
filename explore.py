@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np 
 import time
 import schedule
-import matplotlib
+import matplotlib.pyplot as plt
 import datetime
 
 
@@ -14,7 +14,7 @@ portfolio = api.list_positions()
 account_value = api.get_account()
 
 # trouble shooting and more account information here 
-#print(account_value)
+print(account_value)
 #print(portfolio)
 
 # check print the quantity of shares for each position.
@@ -46,18 +46,21 @@ def func():
     print(f'Today\'s portfolio change: {todays_change:.2f}%')
 
     # append to portvalue
-    balance_change = str(round(balance_change, 2))
+    balance_change = float(round(balance_change, 2))
     port_val.append(balance_change)
 
-    time = datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
+    #time = datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
+    time = (datetime.datetime.utcnow() - datetime.timedelta(hours=7)).strftime("%Y-%m-%d %H:%M:%S")
     time_stamp.append(time)
     df.loc[df.shape[0]] = [time, balance_change] # from time_stamp
-
+	
     print(df)
     df.to_csv('daily_change.csv', header=True, index=False)
+    plt.plot(df['port_daily_change']) #change
+    plt.show()
 
 
-schedule.every(1).minutes.do(func)
+schedule.every(5).seconds.do(func)
 
 while True:
     schedule.run_pending()

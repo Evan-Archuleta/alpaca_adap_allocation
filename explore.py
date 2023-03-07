@@ -23,7 +23,8 @@ for position in portfolio:
 
 port_val = []
 time_stamp = []
-df = pd.DataFrame({'timestamp': [],'port_daily_change': []})
+#df = pd.DataFrame({'timestamp': [],'port_daily_change': []})
+df = pd.read_csv('daily_change.csv')
 
 def func():
     portfolio = api.list_positions()
@@ -56,18 +57,6 @@ def func():
 	
     print(df)
     df.to_csv('daily_change.csv', header=True, index=False)
-
-    #plot
-    # x = df['timestamp']
-    # y = df['port_daily_change']
-
-    # fig, ax = plt.subplots()
-    # ax.plot(x, y)
-
-    # ax.set(xlabel='Time (s)', ylabel='Value ($)',
-    #     title='Daily Change')
-    # plt.xticks(rotation=90)
-    # ax.grid()
 
     plt.plot(df['port_daily_change']) 
     plt.show()

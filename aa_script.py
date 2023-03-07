@@ -1,6 +1,6 @@
 import alpaca_trade_api as tradeapi
 from alpaca_trade_api.rest import TimeFrame 
-import pyEX as p   # OPTIONAL 
+#import pyEX as p   # OPTIONAL 
 from config import *
 from alpaca_df import df, tickers
 import pandas as pd
@@ -20,7 +20,7 @@ api = tradeapi.REST(APIKEYID, APISECRETKEY, APIBASEURL)
 # find tickers last price (alpaca data)
 def last_price(ticker):
     df = pd.DataFrame()
-    bar = api.get_bars(ticker, TimeFrame.Day).df#, start=start, adjustment='all').df
+    bar = api.get_bars(ticker, TimeFrame.Day).df
     price = bar['close'][0]
     return(price)
 

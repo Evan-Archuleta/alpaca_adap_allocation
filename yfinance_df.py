@@ -33,8 +33,8 @@ df.dropna(axis=0, inplace = True)
 
 
 # replace last observed iex result to yahoo finance adjusted close 
-last_row = df2.tail(1)
-df = df.append(last_row)
+# last_row = df2.tail(1)
+# df = df.append(last_row)
 
 ## Calculate Historical Volatility (90 days)
 returns = df.pct_change()
